@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Icon Generator</title>
+</head>
+<body>
+    <canvas id="canvas" width="512" height="512" style="border: 1px solid #ccc;"></canvas>
+    <br><br>
+    <button onclick="generateIcons()">Generate Icons</button>
+    <div id="downloads"></div>
+
+    <script>
+        function generateIcons() {
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Clear canvas
+            ctx.clearRect(0, 0, 512, 512);
+            
+            // Draw white circle background
+            ctx.fillStyle = 'white';
+            ctx.beginPath();
+            ctx.arc(256, 256, 240, 0, 2 * Math.PI);
+            ctx.fill();
+            
+            // Draw black border
+            ctx.strokeStyle = 'black';
+            ctx.lineWidth = 8;
+            ctx.beginPath();
+            ctx.arc(256, 256, 240, 0, 2 * Math.PI);
+            ctx.stroke();
+            
+            // Draw text
+            ctx.fillStyle = 'black';
+            ctx.font = 'bold 80px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('DOPE', 256, 220);
+            ctx.fillText('NATION', 256, 320);
+            
+            // Generate downloads
+            const downloads = document.getElementById('downloads');
+            downloads.innerHTML = '';
+            
+            // Create favicon (32x32)
+            const faviconCanvas = document.createElement('canvas');
+            faviconCanvas.width = 32;
+            faviconCanvas.height = 32;
+            const faviconCtx = faviconCanvas.getContext('2d');
+            faviconCtx.drawImage(canvas, 0, 0, 32, 32);
+            
+            // Create apple touch icon (180x180)
+            const appleCanvas = document.createElement('canvas');
+            appleCanvas.width = 180;
+            appleCanvas.height = 180;
+            const appleCtx = appleCanvas.getContext('2d');
+            appleCtx.drawImage(canvas, 0, 0, 180, 180);
+            
+            // Create download links
+            const faviconLink = document.createElement('a');
+            faviconLink.download = 'favicon.ico';
+            faviconLink.href = faviconCanvas.toDataURL('image/png');
+            faviconLink.textContent = 'Download favicon.ico (save as .ico)';
+            faviconLink.style.display = 'block';
+            faviconLink.style.margin = '10px 0';
+            
+            const appleLink = document.createElement('a');
+            appleLink.download = 'apple-touch-icon.png';
+            appleLink.href = appleCanvas.toDataURL('image/png');
+            appleLink.textContent = 'Download apple-touch-icon.png';
+            appleLink.style.display = 'block';
+            appleLink.style.margin = '10px 0';
+            
+            downloads.appendChild(faviconLink);
+            downloads.appendChild(appleLink);
+        }
+        
+        // Auto-generate on load
+        window.onload = generateIcons;
+    </script>
+</body>
+</html>
